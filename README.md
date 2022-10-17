@@ -9,7 +9,7 @@ If you decide you want to have a looksy, just do like a `git clone` and then `ca
     - [X] ~~Tasks struct~~
     - [X] ~~List of tasks~~
     - [X] ~~Printing to terminal~~
-- [ ] Console menus
-- [ ] Adding new tasks
-- [ ] Editing tasks
-- [ ] Saving and loading tasks from a file
+- [ ] #3
+- [ ] #1
+- [ ] #2
+- [ ] #4
