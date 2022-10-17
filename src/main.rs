@@ -5,9 +5,11 @@ extern crate termsize; // <-- Just makes it easier to get the terminal window si
 fn main() {
 	// Init
 	let mut todo_list = Vec::new();
-	let mut term_size = helpers::TerminalDimensions{width: 100, height: 20}; // <-- Fallback value
-	if let Some(size) = termsize::get() {
-		term_size = helpers::TerminalDimensions{width: size.cols, height: size.rows}; 
+	
+	let term_size = if let Some(size) = termsize::get() {
+		helpers::TerminalDimensions{width: size.cols, height: size.rows}
+	} else {
+		helpers::TerminalDimensions{width: 100, height: 20}
 	}
 	
 	// Some mock data
