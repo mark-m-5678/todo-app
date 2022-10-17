@@ -1,3 +1,5 @@
+[![Rust Build](https://github.com/aubergine5678/todo-app/actions/workflows/rust.yml/badge.svg)](https://github.com/aubergine5678/todo-app/actions/workflows/rust.yml)
+
 # todo-app
 A simple little work-in-progress todo app I wrote in about 2 hours to learn Rust.
 It's not actually a _good_ to-do app, please don't use it as such.
