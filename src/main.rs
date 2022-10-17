@@ -10,7 +10,7 @@ fn main() {
 		helpers::TerminalDimensions{width: size.cols, height: size.rows}
 	} else {
 		helpers::TerminalDimensions{width: 100, height: 20}
-	}
+	};
 	
 	// Some mock data
 	todo_list.push(todo::TodoItem{title: "Test 1".to_string(), description: "Test description 1".to_string(), completed: false});
