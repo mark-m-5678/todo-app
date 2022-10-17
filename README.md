@@ -9,7 +9,7 @@ If you decide you want to have a looksy, just do like a `git clone` and then `ca
     - [X] ~~Tasks struct~~
     - [X] ~~List of tasks~~
     - [X] ~~Printing to terminal~~
-- [ ] #3
-- [ ] #1
-- [ ] #2
-- [ ] #4
+- [ ] https://github.com/aubergine5678/todo-app/issues/3
+- [ ] https://github.com/aubergine5678/todo-app/issues/1
+- [ ] https://github.com/aubergine5678/todo-app/issues/2
+- [ ] https://github.com/aubergine5678/todo-app/issues/4
