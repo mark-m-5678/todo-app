@@ -1,5 +1,4 @@
 use std::io;
-
 mod helpers;
 mod todo;
 extern crate termsize; // <-- Just makes it easier to get the terminal window size on any OS
@@ -12,7 +11,8 @@ fn main() {
 	} else {
 		helpers::TerminalDimensions{width: 100, height: 20}
 	};
-	let options = vec!["Add a new item", "Edit an existing item", "Delete an item", "Quit"];
+	
+	let options = vec!["Add a new item", "Toggle complete", "Edit an existing item", "Delete an item", "Quit"];
 
 	// Some mock data
 	todo_list.push(todo::TodoItem{title: "Test 1".to_string(), description: "Test description 1".to_string(), completed: false});
@@ -49,9 +49,10 @@ fn main() {
 		// Run the corresponding function
 		match choice {
 			1 => add_item_submenu(&mut todo_list),
-			2 => println!("(Not yet implemented)"),
-			3 => println!("(Not yet implemented)"),
-			4 => quit(),
+			2 => toggle_item_submenu(&mut todo_list),
+			3 => edit_item_submenu(&mut todo_list),
+			4 => delete_item_submenu(&mut todo_list),
+			5 => quit(),
 			_ => continue,
 		}
 	}
@@ -79,7 +80,7 @@ fn print_todo_list(todo_list: &Vec<todo::TodoItem>, term_size: &helpers::Termina
 	println!("You currently have {} to-do items.", todo_list.len());
 	helpers::print_div(helpers::DividerType::Double, &term_size);
 	for item in todo_list {
-		println!("{} | Title: {}, Descritpion: {}, Completed: {}", todo_list.iter().position(|x| x.title == item.title).unwrap() + 1, item.title, item.description, item.completed);
+		println!(" {} | Title: {}, Descritpion: {}, Completed: {}", todo_list.iter().position(|x| x.title == item.title).unwrap() + 1, item.title, item.description, item.completed);
 		helpers::print_div(helpers::DividerType::Single, &term_size);
 	}
 }
@@ -104,6 +105,92 @@ fn add_item_submenu(todo_list: &mut Vec<todo::TodoItem>) {
 
 	todo::add_item(todo_list, title, description);
 	println!("Item added successfully");
+}
+
+fn delete_item_submenu(todo_list: &mut Vec<todo::TodoItem>) {
+	let mut user_input = String::new();
+	println!("Please enter the number of the item you wish to delete:");
+	io::stdin().read_line(&mut user_input).expect("Failed to read line");
+	let choice: u8 = match user_input.trim().parse() {
+		Ok(num) => num,
+		Err(_) => {
+			println!("Please enter a number");
+			helpers::pause();
+			return;
+		}
+	};
+
+	// Check the option is valid
+	if choice < 1 || choice > todo_list.len() as u8 {
+		println!("Please enter a valid option");
+		helpers::pause();
+		return;
+	}
+
+	todo::delete_item(todo_list, choice as usize - 1);
+	println!("Item deleted successfully");
+}
+
+fn toggle_item_submenu(todo_list: &mut Vec<todo::TodoItem>) {
+	let mut user_input = String::new();
+	println!("Please enter the number of the item you wish to toggle:");
+	io::stdin().read_line(&mut user_input).expect("Failed to read line");
+	let choice: u8 = match user_input.trim().parse() {
+		Ok(num) => num,
+		Err(_) => {
+			println!("Please enter a number");
+			helpers::pause();
+			return;
+		}
+	};
+
+	// Check the option is valid
+	if choice < 1 || choice > todo_list.len() as u8 {
+		println!("Please enter a valid option");
+		helpers::pause();
+		return;
+	}
+
+	todo::toggle_item(todo_list, choice as usize - 1);
+}
+
+fn edit_item_submenu(todo_list: &mut Vec<todo::TodoItem>) {
+	let mut user_input = String::new();
+	println!("Please enter the number of the item you wish to edit:");
+	io::stdin().read_line(&mut user_input).expect("Failed to read line");
+	let choice: u8 = match user_input.trim().parse() {
+		Ok(num) => num,
+		Err(_) => {
+			println!("Please enter a number");
+			helpers::pause();
+			return;
+		}
+	};
+
+	// Check the option is valid
+	if choice < 1 || choice > todo_list.len() as u8 {
+		println!("Please enter a valid option");
+		helpers::pause();
+		return;
+	}
+
+	let mut title = String::new();
+	let mut description = String::new();
+
+	println!("Please enter a new title for the item:");
+	io::stdin().read_line(&mut title).expect("Failed to read line");
+	println!("Please enter a new description for the item:");
+	io::stdin().read_line(&mut description).expect("Failed to read line");
+
+	if title.trim().is_empty() {
+		println!("Title cannot be empty");
+		helpers::pause();
+		return;
+	}
+
+	let title = title.trim().to_string();
+	let description = description.trim().to_string();
+	todo::edit_item(todo_list, choice as usize - 1, title, description);
 }
 
 fn quit() {
